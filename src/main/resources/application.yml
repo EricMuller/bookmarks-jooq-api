@@ -13,8 +13,9 @@ logging:
     com.emu.apps: WARN
     org.keycloak.services: DEBUG
     org.springframework.aop.interceptor.PerformanceMonitorInterceptor: TRACE
-    com.zaxxer.hikari.pool.HikariPool: DEBUG
-    com.zaxxer.hikari: DEBUG
+    com.zaxxer.hikari.pool.HikariPool: INFO
+    com.zaxxer.hikari: INFO
+    liquibase.changelog.ChangeSet : INFO
 
 spring:
   jpa:
@@ -24,7 +25,7 @@ spring:
   application:
     name: qcm-service
   liquibase:
-    change-log: classpath:liquibase-changeLog.xml
+    change-log: classpath:db/changelog/liquibase-changeLog.xml
 
 #
 #management:

@@ -20,28 +20,25 @@ public class BookmarkJdbcRepository {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
+    private static final RowMapper<BookmarkDto> BOOKMARK_DTO_ROW_MAPPER = (rs, rowNum) -> new BookmarkDto(rs.getLong("id"), rs.getString("title"), rs.getString("url"), rs.getString("description"));
+
     @Autowired
     protected JdbcTemplate jdbc;
 
     public BookmarkDto getBookmark(long id) {
-        return jdbc.queryForObject("SELECT * FROM webmarks_bookmarks_bookmark WHERE node_ptr_id=?", BOOKMARK_DTO_ROW_MAPPER, id);
+        return jdbc.queryForObject("SELECT * FROM bookmarks WHERE id=?", BOOKMARK_DTO_ROW_MAPPER, id);
     }
 
     public List<BookmarkDto> getBookmarks(long[] ids) {
         String inIds = StringUtils.arrayToCommaDelimitedString(ObjectUtils.toObjectArray(ids));
-        return jdbc.query("SELECT * FROM webmarks_bookmarks_bookmark WHERE node_ptr_id IN (" + inIds + ")", BOOKMARK_DTO_ROW_MAPPER);
+        return jdbc.query("SELECT * FROM bookmarks WHERE id IN (" + inIds + ")", BOOKMARK_DTO_ROW_MAPPER);
     }
 
     @Transactional(readOnly=true)
     public List<BookmarkDto> getBookmarks() {
-        return jdbc.query("SELECT * FROM mywebmarks_bookmark", BOOKMARK_DTO_ROW_MAPPER);
+        return jdbc.query("SELECT * FROM bookmarks", BOOKMARK_DTO_ROW_MAPPER);
     }
 
-    private static final RowMapper<BookmarkDto> BOOKMARK_DTO_ROW_MAPPER = new RowMapper<BookmarkDto>() {
-        public BookmarkDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new BookmarkDto(rs.getLong("node_ptr_id"), rs.getString("title"), rs.getString("url"), rs.getString("description"));
-        }
-    };
 
 
 } 
