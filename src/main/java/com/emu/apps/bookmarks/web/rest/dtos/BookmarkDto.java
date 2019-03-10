@@ -1,16 +1,24 @@
 package com.emu.apps.bookmarks.web.rest.dtos;
 
 import io.swagger.annotations.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @ApiModel(value = "Bookmark")
-public class BookmarkDto {
-	@ApiModelProperty(notes = "The database generated product ID")
-    public long id;
-	@ApiModelProperty(notes = "The title  of the Bookmark")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public final class BookmarkDto extends EntityInputDto {
+
+
+    @ApiModelProperty(notes = "The title of the Bookmark")
     public String title;
-	@ApiModelProperty(notes = "The url  of the Bookmark")
+    @ApiModelProperty(notes = "The url of the Bookmark")
     public String url;
-	@ApiModelProperty(notes = "The description  of the Bookmark")
+    @ApiModelProperty(notes = "The description of the Bookmark")
     public String description;
 
     public BookmarkDto(long id, String title, String url, String description) {
@@ -20,37 +28,4 @@ public class BookmarkDto {
         this.description = description;
     }
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-    
-    	
 } 

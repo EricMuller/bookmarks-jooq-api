@@ -4,9 +4,9 @@ spring:
     profiles: brix-postgres
 
     datasource:
-        url: jdbc:postgresql://192.168.1.100:5432/bookmarks
-        type: com.zaxxer.hikari.HikariDataSource
         driverClassName: org.postgresql.Driver
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://192.168.1.100:5432/bookmarks
         username: bookmarks
         password: bookmarks
         hikari:
@@ -17,3 +17,4 @@ spring:
                 idleTimeout: 20000
                 minimum-idle: 1
                 maximumPoolSize: 5
+

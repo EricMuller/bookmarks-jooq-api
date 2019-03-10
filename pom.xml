@@ -10,17 +10,17 @@
     </parent>
 
     <groupId>com.emu.apps.qcm</groupId>
-    <artifactId>bookmarks-api</artifactId>
+    <artifactId>bookmarks-jooq-api</artifactId>
     <version>2.0.0-SNAPSHOT</version>
 
-    <name>Bookmarks  API</name>
+    <name>Bookmarks API</name>
     <description>Bookmark API</description>
-    <url>https://github.com/EricMuller/bookmarks-api</url>
+    <url>https://github.com/EricMuller/bookmarks-jooq-api</url>
 
     <scm>
         <url>https://github.com/EricMuller/bookmarks-api</url>
-        <connection>scm:git:git://github.com/EricMuller/bookmarks-api.git</connection>
-        <developerConnection>scm:git:git@github.com:EricMuller/bookmarks-api.git</developerConnection>
+        <connection>scm:git:git://github.com/EricMuller/bookmarks-jooq-api.git</connection>
+        <developerConnection>scm:git:git@github.com:EricMuller/bookmarks-jooq-api.git</developerConnection>
     </scm>
 
     <repositories>
@@ -40,6 +40,16 @@
         <start-class>com.emu.apps.Application</start-class>
         <sonar.language>java</sonar.language>
 
+        <dataSource.driverClass>org.postgresql.Driver</dataSource.driverClass>
+        <dataSource.jdbcURL>jdbc:postgresql://192.168.1.100:5432/bookmarks</dataSource.jdbcURL>
+        <dataSource.user>bookmarks</dataSource.user>
+        <dataSource.password>bookmarks</dataSource.password>
+
+        <liquibase.changelogfile>src/main/resources/db/liquibase-changeLog.xml</liquibase.changelogfile>
+        <liquibase.propertyFile>src/main/resources/db/liquibase.properties</liquibase.propertyFile>
+
+        <jooq.generator.db.dialect>org.jooq.util.postgres.PostgresDatabase</jooq.generator.db.dialect>
+
     </properties>
 
     <dependencies>
@@ -47,11 +57,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
 
         <dependency>
@@ -76,10 +81,10 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-cache</artifactId>-->
+        <!--</dependency>-->
 
         <!--spring dev tools-->
         <dependency>
@@ -89,6 +94,10 @@
         </dependency>
 
         <!-- security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.keycloak</groupId>
@@ -96,8 +105,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-spring-security-adapter</artifactId>
         </dependency>
 
         <dependency>
@@ -170,43 +179,72 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
 
-        <!--LIQUIBASE -->
-
+        <!--liquibase -->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
 
-        <!--JOOQ -->
+        <!--jooq -->
         <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-meta</artifactId>
-
         </dependency>
+
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-codegen</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
-        <!--<directory>Z:\${project.name}/target</directory>-->
-        <!--<outputDirectory>Z:\${project.name}/classes</outputDirectory>-->
-        <!--<testOutputDirectory>Z:\${project.name}/test-classes</testOutputDirectory>-->
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
-            <!-- mapper -->
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/target/generated-sources</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -214,15 +252,14 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
+                <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
 
-            <!-- spring-boot- -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
                 <configuration>
+                    <!--<classifier>boot</classifier>-->
                     <addResources>true</addResources>
                     <executable>false</executable>
                     <mainClass>com.emu.apps.Application</mainClass>
@@ -233,21 +270,118 @@
                         <java.target>${java.target.version}</java.target>
                     </additionalProperties>
                 </configuration>
+
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-
-
 
         </plugins>
+
+
     </build>
 
+    <profiles>
+
+        <profile>
+            <id>run-generator</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>run-generator</name>
+                </property>
+            </activation>
+
+            <properties>
+
+            </properties>
+
+            <build>
+
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-maven-plugin</artifactId>
+                        <configuration>
+                            <propertyFile>${liquibase.propertyFile}</propertyFile>
+                            <changeLogFile>${liquibase.changelogfile}</changeLogFile>
+                            <url>${dataSource.jdbcURL}</url>
+                            <driver>${dataSource.driverClass}</driver>
+                            <username>${dataSource.user}</username>
+                            <password>${dataSource.password}</password>
+                            <defaultSchemaName>public</defaultSchemaName>
+                            <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                            <logging>info</logging>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <!--<phase>process-resources</phase>-->
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!--jooq codegen-->
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.postgresql</groupId>
+                                <artifactId>postgresql</artifactId>
+                                <version>${postgresql.version}</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <jdbc>
+                                <driver>${dataSource.driverClass}</driver>
+                                <url>${dataSource.jdbcURL}</url>
+                                <user>${dataSource.user}</user>
+                                <password>${dataSource.password}</password>
+                            </jdbc>
+                            <generator>
+                                <name>org.jooq.util.DefaultGenerator</name>
+                                <database>
+                                    <name>${jooq.generator.db.dialect}</name>
+                                    <includes>.*</includes>
+                                    <excludes>databasechangelog.*</excludes>
+                                    <inputSchema>public</inputSchema>
+                                    <!--<inputCatalog>bookmarks</inputCatalog>-->
+                                </database>
+                                <target>
+                                    <packageName>com.emu.apps.bookmarks.services.jooq</packageName>
+                                    <directory>target/generated-sources</directory>
+                                </target>
+                                <generate>
+                                    <!--<relations>true</relations>-->
+                                    <!--<daos>true</daos>-->
+                                    <pojos>true</pojos>
+                                    <records>true</records>
+                                    <!--<interfaces>true</interfaces>-->
+                                    <springAnnotations>true</springAnnotations>
+                                    <!--<globalObjectReferences>true</globalObjectReferences>-->
+                                    <!--<fluentSetters>false</fluentSetters>-->
+                                </generate>
+                            </generator>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+
+            </build>
+
+        </profile>
+
+    </profiles>
 </project>

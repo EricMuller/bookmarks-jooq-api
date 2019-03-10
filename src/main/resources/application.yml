@@ -1,13 +1,12 @@
 info:
-  application-name: qcm-designer-api
+  application-name: bookmarks-designer-api
 
 logging:
   # file: logs/application-debug.LOGGER
   level:
-    root: WARN
+    root: INFO
     org.springframework.web: ERROR
     org.springframework.security: WARN
-    org.hibernate: WARN
     org.hibernate.SQL: INFO
     org.hibernate.type.descriptor.sql: INFO
     com.emu.apps: WARN
@@ -23,9 +22,10 @@ spring:
     generate-ddl: false
     show-sql: false
   application:
-    name: qcm-service
+    name: bookmarks-service
   liquibase:
-    change-log: classpath:db/changelog/liquibase-changeLog.xml
+    change-log: classpath:db/liquibase-changeLog.xml
+    defaultSchema: public
 
 #
 #management:

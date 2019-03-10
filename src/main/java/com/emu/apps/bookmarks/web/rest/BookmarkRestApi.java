@@ -8,12 +8,13 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 
-@RequestMapping(BookmarksApi.API_V + "/bookmarks")
-@Api(value = "bookmark-store", description = "Operations on bookmarks Store", tags = "Bookmarks")
+@RequestMapping(BookmarkApi.API_V1 + "/bookmark")
+@Api(value = "bookmark-store", description = "Operations on Bookmarks", tags = "Bookmarks")
 public interface BookmarkRestApi {
 
     @RequestMapping(value = "test", method = RequestMethod.GET)
@@ -22,6 +23,7 @@ public interface BookmarkRestApi {
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ApiOperation(value = "Search a bookmark with an ID", response = BookmarkDto.class)
+    @ResponseBody
     BookmarkDto getBookmark(@PathVariable("id") long id);
 
 
@@ -34,5 +36,6 @@ public interface BookmarkRestApi {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     }
     )
+    @ResponseBody
     List <BookmarkDto> getBookmarks();
 }

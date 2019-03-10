@@ -1,6 +1,7 @@
 package com.emu.apps.bookmarks.web.config;
 
 
+import com.emu.apps.bookmarks.web.rest.BookmarkApi;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
@@ -52,7 +53,7 @@ class WebSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         super.configure(http);
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/bookmarks/api*").hasRole("user")
+                .antMatchers(BookmarkApi.API_V1 + ".*").hasRole("user")
                 .anyRequest().permitAll();
     }
 

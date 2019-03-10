@@ -1,21 +1,15 @@
 package com.emu.apps.bookmarks.web.rest.config;
 
-import com.emu.apps.bookmarks.web.rest.BookmarksApi;
+import com.emu.apps.bookmarks.web.rest.BookmarkApi;
 import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.ApiKeyVehicle;
-import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 import java.util.Collections;
@@ -29,52 +23,32 @@ import static springfox.documentation.builders.RequestHandlerSelectors.withClass
 @Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class})
 public class SwaggerBookmarksConfig {
 
-    @Bean
-    SecurityConfiguration security() {
-        return new SecurityConfiguration(null, null, null, null, null, ApiKeyVehicle.HEADER, "Authorization", null);
-    }
-
-    @Bean
-    public RepositoryRestConfigurer repositoryRestConfigurer() {
-
-        return new RepositoryRestConfigurerAdapter() {
-
-            @Override
-            public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-                config.setRepositoryDetectionStrategy(
-                        RepositoryDetectionStrategy.RepositoryDetectionStrategies.ANNOTATED);
-            }
-        };
-    }
-
-    @Bean
+   @Bean
     public Docket bookmarkApiv1() {
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName(BookmarksApi.API_V)
+                .groupName(BookmarkApi.API_V1)
                 .select()
                 .apis(withClassAnnotation(RestController.class))
-                .paths(regex(BookmarksApi.API_V + ".*"))
+                .paths(regex(BookmarkApi.API_V1 + ".*"))
                 .build()
                 .enable(true)
-                .apiInfo(metaData(BookmarksApi.V))
+                .apiInfo(metaData(BookmarkApi.VERSION))
                 .produces(Collections.singleton("application/json"))
-                .securityContexts(Lists.newArrayList(securityContext()))
-                .securitySchemes(Lists.newArrayList(apiKey()));
+                .securityContexts(Lists.newArrayList(buildSecurityContext()))
+                .securitySchemes(Lists.newArrayList(buildSecurityScheme()));
 
     }
 
 
-    private ApiKey apiKey() {
-
+    private ApiKey buildSecurityScheme() {
         return new ApiKey("Authorization", "Authorization", "header");
     }
 
-    private SecurityContext securityContext() {
-
+    private SecurityContext buildSecurityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
-                .forPaths(regex("/anyPath.*"))
+                .forPaths(regex(BookmarkApi.API_V1 + ".*"))
                 .build();
     }
 
@@ -84,9 +58,9 @@ public class SwaggerBookmarksConfig {
                 = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Lists.newArrayList(
-                new SecurityReference("AUTHORIZATION", authorizationScopes));
+        return Lists.newArrayList(new SecurityReference("Authorization", authorizationScopes));
     }
+
 
     private ApiInfo metaData(String version) {
 

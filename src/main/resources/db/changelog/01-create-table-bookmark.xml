@@ -1,0 +1,27 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="eric" id="01-create-table-bookmark"  >
+
+        <createTable tableName="BOOKMARK">
+            <column name="ID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="UUID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="URL" type="VARCHAR(256)"/>
+            <column name="DESCRIPTION" type="clob"/>
+            <column name="FAVORITE" type="boolean" defaultValueBoolean="true"/>
+            <column name="RATE" type="int"/>
+            <column name="VERSION" type="bigint"/>
+            <column name="DATE_ARCHIVE" type="datetime"/>
+            <column name="DATE_CREATION" type="datetime"/>
+            <column name="USER_CREATION" type="VARCHAR(100)"/>
+            <column name="DATE_MODIFICATION" type="datetime"/>
+            <column name="USER_MODIFICATION" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

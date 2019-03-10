@@ -1,0 +1,32 @@
+[
+  {
+    "libelle": "test",
+    "id": 0,
+    "uuid": "18b30ffb-dc68-4e7e-b5df-334e5af33d5a",
+    "version": 0,
+    "date_creation": null,
+    "date_modification": null,
+    "user_creation": null,
+    "user_modification": null
+  },
+  {
+    "libelle": "test",
+    "id": 1,
+    "uuid": "27f2f6ea-e451-4fc1-b880-a1feb143aefc",
+    "version": 0,
+    "date_creation": null,
+    "date_modification": null,
+    "user_creation": null,
+    "user_modification": null
+  },
+  {
+    "libelle": "test",
+    "id": 2,
+    "uuid": "5e5def57-ab67-4c32-ac73-0199364d0ddf",
+    "version": 0,
+    "date_creation": null,
+    "date_modification": null,
+    "user_creation": null,
+    "user_modification": null
+  }
+]

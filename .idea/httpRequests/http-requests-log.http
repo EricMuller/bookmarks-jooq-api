@@ -1,0 +1,202 @@
+GET http://localhost:8080/bookmarks/api/v1/tags
+
+<> 2019-03-10T094443.200.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T094440.200.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T094437.200.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T094401.500.json
+
+###
+
+GET http://localhost:8080/bookmarks/api/v1/tags
+
+<> 2019-03-10T094358.200.json
+
+###
+
+GET http://localhost:8080/bookmarks/api/v1/tags
+
+<> 2019-03-10T094349.200.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T094334.200.json
+
+###
+
+GET http://localhost:8080/bookmarks/api/v1/tags
+
+<> 2019-03-10T094154.200.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T094141.200.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T094135.200.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T094056.500.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T093656.500.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T093443.500.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+Content-Type: application/json
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+<> 2019-03-10T093235.500.json
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+{:
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}:
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+###
+
+POST http://localhost:8080/bookmarks/api/v1/tags
+
+{
+  "id": 0,
+  "libelle": "test",
+  "version": 0
+}
+
+###
+
+GET http://localhost:8080/bookmarks/api/v1/tags
+
+<> 2019-03-10T071557.200.json
+
+###
+
+GET http://bookmarks/api/v1/tags
+
+###
+

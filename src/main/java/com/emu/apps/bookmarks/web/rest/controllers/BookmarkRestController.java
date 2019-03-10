@@ -17,8 +17,12 @@ import java.util.List;
 public class BookmarkRestController implements BookmarkRestApi {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private final BookmarkJdbcRepository bookmarkRepository;
+
     @Autowired
-    private BookmarkJdbcRepository bookmarkRepository;
+    public BookmarkRestController(BookmarkJdbcRepository bookmarkRepository) {
+        this.bookmarkRepository = bookmarkRepository;
+    }
 
     @Override
     public String test() {
@@ -31,14 +35,9 @@ public class BookmarkRestController implements BookmarkRestApi {
         return bookmarkRepository.getBookmark(id);
     }
 
-   /* @RequestMapping(value= "ids", produces = "application/json")
-    public List<Bookmark> getBookmarksById(@RequestParam("ids") long[] ids) {
-        LOGGER.info("Get bookmarks");
-        return bookmarkRepository.getBookmarks(ids);
-    }*/
     @Override
-    @RequestMapping(produces = "application/json", method= RequestMethod.GET)
-    public List<BookmarkDto> getBookmarks() {
+    @RequestMapping(produces = "application/json", method = RequestMethod.GET)
+    public List <BookmarkDto> getBookmarks() {
         return bookmarkRepository.getBookmarks();
     }
 } 
