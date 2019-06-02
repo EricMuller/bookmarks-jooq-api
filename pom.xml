@@ -45,11 +45,6 @@
         <dataSource.user>bookmarks</dataSource.user>
         <dataSource.password>bookmarks</dataSource.password>
 
-        <liquibase.changelogfile>src/main/resources/db/liquibase-changeLog.xml</liquibase.changelogfile>
-        <liquibase.propertyFile>src/main/resources/db/liquibase.properties</liquibase.propertyFile>
-
-        <jooq.generator.db.dialect>org.jooq.util.postgres.PostgresDatabase</jooq.generator.db.dialect>
-
     </properties>
 
     <dependencies>
@@ -238,7 +233,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${basedir}/target/generated-sources</source>
+                                <source>${basedir}/src/generated/java/</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -281,47 +276,22 @@
     <profiles>
 
         <profile>
-            <id>run-generator</id>
+            <id>run-jooq-codegen</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
                 <property>
-                    <name>run-generator</name>
+                    <name>run-jooq-codegen</name>
                 </property>
             </activation>
 
             <properties>
 
+                <jooq.generator.db.dialect>org.jooq.util.postgres.PostgresDatabase</jooq.generator.db.dialect>
             </properties>
 
             <build>
 
                 <plugins>
-
-                    <plugin>
-                        <groupId>org.liquibase</groupId>
-                        <artifactId>liquibase-maven-plugin</artifactId>
-                        <configuration>
-                            <propertyFile>${liquibase.propertyFile}</propertyFile>
-                            <changeLogFile>${liquibase.changelogfile}</changeLogFile>
-                            <url>${dataSource.jdbcURL}</url>
-                            <driver>${dataSource.driverClass}</driver>
-                            <username>${dataSource.user}</username>
-                            <password>${dataSource.password}</password>
-                            <defaultSchemaName>public</defaultSchemaName>
-                            <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-                            <logging>info</logging>
-                        </configuration>
-
-                        <executions>
-                            <execution>
-                                <phase>generate-sources</phase>
-                                <!--<phase>process-resources</phase>-->
-                                <goals>
-                                    <goal>update</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
 
                     <!--jooq codegen-->
                     <plugin>
@@ -361,7 +331,7 @@
                                 </database>
                                 <target>
                                     <packageName>com.emu.apps.bookmarks.services.jooq</packageName>
-                                    <directory>target/generated-sources</directory>
+                                    <directory>src/generated/java</directory>
                                 </target>
                                 <generate>
                                     <!--<relations>true</relations>-->
@@ -375,6 +345,56 @@
                                 </generate>
                             </generator>
                         </configuration>
+                    </plugin>
+
+                </plugins>
+
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>run-liquibase</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>run-liquibase</name>
+                </property>
+            </activation>
+
+            <properties>
+                <liquibase.changelogfile>src/main/resources/db/liquibase-changeLog.xml</liquibase.changelogfile>
+                <liquibase.propertyFile>src/main/resources/db/liquibase.properties</liquibase.propertyFile>
+            </properties>
+
+            <build>
+
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-maven-plugin</artifactId>
+                        <configuration>
+                            <propertyFile>${liquibase.propertyFile}</propertyFile>
+                            <changeLogFile>${liquibase.changelogfile}</changeLogFile>
+                            <url>${dataSource.jdbcURL}</url>
+                            <driver>${dataSource.driverClass}</driver>
+                            <username>${dataSource.user}</username>
+                            <password>${dataSource.password}</password>
+                            <defaultSchemaName>public</defaultSchemaName>
+                            <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                            <logging>info</logging>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <!--<phase>process-resources</phase>-->
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
 
                 </plugins>

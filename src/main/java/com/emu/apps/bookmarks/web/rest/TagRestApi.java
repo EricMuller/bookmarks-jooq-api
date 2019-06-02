@@ -1,7 +1,6 @@
 package com.emu.apps.bookmarks.web.rest;
 
 
-import com.emu.apps.bookmarks.services.jooq.tables.pojos.Tag;
 import com.emu.apps.bookmarks.web.rest.dtos.TagInputDto;
 import com.emu.apps.bookmarks.web.rest.dtos.TagOutPutDto;
 import io.swagger.annotations.*;

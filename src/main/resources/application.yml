@@ -1,5 +1,5 @@
 info:
-  application-name: bookmarks-designer-api
+  application-name: bookmarks-jooq-api
 
 logging:
   # file: logs/application-debug.LOGGER
