@@ -6,7 +6,7 @@
 
 [![Build Status](https://travis-ci.com/EricMuller/bookmarks-jooq-api.svg?branch=master)](https://travis-ci.com/EricMuller/bookmarks-jooq-api)
 
- 
+
 
 bookmarks-jooq-api is a sample Bookmarks Rest API.
 

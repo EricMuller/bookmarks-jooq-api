@@ -3,12 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.emu.apps.starter</groupId>
-        <artifactId>spring-boot-starter-bom</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
-    </parent>
-
     <groupId>com.emu.apps.qcm</groupId>
     <artifactId>bookmarks-jooq-api</artifactId>
     <version>2.0.0-SNAPSHOT</version>
@@ -16,6 +10,13 @@
     <name>Bookmarks API</name>
     <description>Bookmark API</description>
     <url>https://github.com/EricMuller/bookmarks-jooq-api</url>
+
+    <parent>
+        <groupId>com.emu.apps.starter</groupId>
+        <artifactId>spring-boot-starter-bom</artifactId>
+        <version>2.0.0-jdk11-SNAPSHOT</version>
+    </parent>
+
 
     <scm>
         <url>https://github.com/EricMuller/bookmarks-api</url>
@@ -201,10 +202,33 @@
             <artifactId>jooq-codegen</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>javax.activation-api</artifactId>
+            <version>1.2.0</version>
         </dependency>
 
     </dependencies>
@@ -254,18 +278,15 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <!--<classifier>boot</classifier>-->
                     <addResources>true</addResources>
                     <executable>false</executable>
                     <mainClass>com.emu.apps.Application</mainClass>
                     <additionalProperties>
                         <encoding.source>UTF-8</encoding.source>
                         <encoding.reporting>UTF-8</encoding.reporting>
-                        <java.source>${java.source.version}</java.source>
-                        <java.target>${java.target.version}</java.target>
+                        <release>${maven.compiler.release}</release>
                     </additionalProperties>
                 </configuration>
-
             </plugin>
 
         </plugins>
@@ -285,14 +306,11 @@
             </activation>
 
             <properties>
-
-                <jooq.generator.db.dialect>org.jooq.util.postgres.PostgresDatabase</jooq.generator.db.dialect>
+                <jooq.generator.db.dialect>org.jooq.meta.postgres.PostgresDatabase</jooq.generator.db.dialect>
             </properties>
 
             <build>
-
                 <plugins>
-
                     <!--jooq codegen-->
                     <plugin>
                         <groupId>org.jooq</groupId>
@@ -321,27 +339,20 @@
                                 <password>${dataSource.password}</password>
                             </jdbc>
                             <generator>
-                                <name>org.jooq.util.DefaultGenerator</name>
                                 <database>
                                     <name>${jooq.generator.db.dialect}</name>
                                     <includes>.*</includes>
                                     <excludes>databasechangelog.*</excludes>
                                     <inputSchema>public</inputSchema>
-                                    <!--<inputCatalog>bookmarks</inputCatalog>-->
                                 </database>
                                 <target>
                                     <packageName>com.emu.apps.bookmarks.services.jooq</packageName>
                                     <directory>src/generated/java</directory>
                                 </target>
                                 <generate>
-                                    <!--<relations>true</relations>-->
-                                    <!--<daos>true</daos>-->
                                     <pojos>true</pojos>
                                     <records>true</records>
-                                    <!--<interfaces>true</interfaces>-->
                                     <springAnnotations>true</springAnnotations>
-                                    <!--<globalObjectReferences>true</globalObjectReferences>-->
-                                    <!--<fluentSetters>false</fluentSetters>-->
                                 </generate>
                             </generator>
                         </configuration>
